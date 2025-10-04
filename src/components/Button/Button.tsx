@@ -422,7 +422,28 @@ const Button = (
             >
               {children}
             </Text>
-          ) : children}
+          ) : (
+            <View
+              variant="labelLarge"
+              selectable={false}
+              numberOfLines={1}
+              testID={`${testID}-text`}
+              style={[
+                styles.label,
+                !isV3 && styles.md2Label,
+                isV3 &&
+                  (isMode('text')
+                    ? icon || loading
+                      ? styles.md3LabelTextAddons
+                      : styles.md3LabelText
+                    : styles.md3Label),
+                compact && styles.compactLabel,
+                labelStyle,
+              ]}
+            >
+              {children}
+            </View>
+          )}
         </View>
       </TouchableRipple>
     </Surface>
