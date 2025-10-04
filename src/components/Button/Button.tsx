@@ -15,11 +15,6 @@ import {
 
 import color from 'color';
 
-import {
-  ButtonMode,
-  getButtonColors,
-  getButtonTouchableRippleStyle,
-} from './utils';
 import { useInternalTheme } from '../../core/theming';
 import type { $Omit, ThemeProp } from '../../types';
 import { forwardRef } from '../../utils/forwardRef';
@@ -32,6 +27,11 @@ import TouchableRipple, {
   Props as TouchableRippleProps,
 } from '../TouchableRipple/TouchableRipple';
 import Text from '../Typography/Text';
+import {
+  ButtonMode,
+  getButtonColors,
+  getButtonTouchableRippleStyle,
+} from './utils';
 
 export type Props = $Omit<React.ComponentProps<typeof Surface>, 'mode'> & {
   /**
@@ -85,7 +85,7 @@ export type Props = $Omit<React.ComponentProps<typeof Surface>, 'mode'> & {
   /**
    * Label text of the button.
    */
-  children: React.ReactNode;
+  children: React.ReactNode | string;
   /**
    * Make the label text uppercased. Note that this won't work if you pass React elements as children.
    */
@@ -398,29 +398,31 @@ const Button = (
               style={iconStyle}
             />
           ) : null}
-          <Text
-            variant="labelLarge"
-            selectable={false}
-            numberOfLines={1}
-            testID={`${testID}-text`}
-            style={[
-              styles.label,
-              !isV3 && styles.md2Label,
-              isV3 &&
-                (isMode('text')
-                  ? icon || loading
-                    ? styles.md3LabelTextAddons
-                    : styles.md3LabelText
-                  : styles.md3Label),
-              compact && styles.compactLabel,
-              uppercase && styles.uppercaseLabel,
-              textStyle,
-              labelStyle,
-            ]}
-            maxFontSizeMultiplier={maxFontSizeMultiplier}
-          >
-            {children}
-          </Text>
+          {typeof children === "string" ? (
+            <Text
+              variant="labelLarge"
+              selectable={false}
+              numberOfLines={1}
+              testID={`${testID}-text`}
+              style={[
+                styles.label,
+                !isV3 && styles.md2Label,
+                isV3 &&
+                  (isMode('text')
+                    ? icon || loading
+                      ? styles.md3LabelTextAddons
+                      : styles.md3LabelText
+                    : styles.md3Label),
+                compact && styles.compactLabel,
+                uppercase && styles.uppercaseLabel,
+                textStyle,
+                labelStyle,
+              ]}
+              maxFontSizeMultiplier={maxFontSizeMultiplier}
+            >
+              {children}
+            </Text>
+          ) : children}
         </View>
       </TouchableRipple>
     </Surface>
